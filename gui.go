@@ -8,6 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"runtime"
+
+	"github.com/gdamore/tcell/v2"
 )
 
 // OutputMode represents an output mode, which determines how colors
@@ -169,7 +171,7 @@ func (g *Gui) Size() (x, y int) {
 	return g.maxX, g.maxY
 }
 
-// MousePosition returns the last position of the mouse.
+// MousePosition returns the last  position of the mouse.
 // If no mouse event was triggered yet MousePosition will return -1, -1.
 func (g *Gui) MousePosition() (x, y int) {
 	return g.mouseX, g.mouseY
@@ -938,6 +940,11 @@ func (g *Gui) execKeybindings(v *View, ev *gocuiEvent) (matched bool, err error)
 	return false, nil
 }
 
+// Set the style of the cursor
+func (g *Gui) SetCursorStyle(style CursorStyle) {
+	setCursorStyle(style)
+}
+
 // execKeybinding executes a given keybinding
 func (g *Gui) execKeybinding(v *View, kb *keybinding) (bool, error) {
 	if g.isBlacklisted(kb.key) {
@@ -959,3 +966,11 @@ func (g *Gui) isBlacklisted(k Key) bool {
 	}
 	return false
 }
+
+type CursorStyle = tcell.CursorStyle
+
+const (
+	CursorStyleBlinkingBlock     = CursorStyle(tcell.CursorStyleBlinkingBlock)
+	CursorStyleBlinkingBar       = CursorStyle(tcell.CursorStyleBlinkingBar)
+	CursorStyleBlinkingUnderline = CursorStyle(tcell.CursorStyleBlinkingUnderline)
+)

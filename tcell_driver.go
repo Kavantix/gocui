@@ -9,6 +9,7 @@ import (
 )
 
 var screen tcell.Screen
+var EventLog []string
 
 // tcellInit initializes tcell screen for use.
 func tcellInit() error {
@@ -30,6 +31,11 @@ func Suspend() {
 // Resume re-initializes the tcell screen, intended to be used after "Suspend" has been called
 func Resume() error {
 	return tcellInit()
+}
+
+// Set the style of the cursor
+func setCursorStyle(style CursorStyle) {
+	screen.SetCursorStyle(style)
 }
 
 // tcellInitSimulation creates a tcell simulated screen for testing
@@ -154,6 +160,8 @@ func pollEvent() gocuiEvent {
 			}
 		}
 		mod := tev.Modifiers()
+		// EventLog = append(EventLog, fmt.Sprintf("Mod: %v", mod))
+		EventLog = append(EventLog, tev.Name())
 		// remove control modifier and setup special handling of ctrl+spacebar, etc.
 		if mod == tcell.ModCtrl && k == 32 {
 			mod = 0
