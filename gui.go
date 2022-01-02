@@ -914,7 +914,7 @@ func (g *Gui) execKeybindings(v *View, ev *gocuiEvent) (matched bool, err error)
 			return g.execKeybinding(v, kb)
 		}
 
-		if kb.viewName == "" && (((v != nil && !v.Editable) || kb.ch == 0) || v == nil) {
+		if kb.viewName == "" && (v == nil || !v.Editable || (v.KeybindOnEdit && kb.ch == 0)) {
 			globalKb = kb
 		}
 	}
