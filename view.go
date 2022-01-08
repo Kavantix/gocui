@@ -378,6 +378,22 @@ func (v *View) writeCells(x, y int, cells []cell) {
 	v.lines[y] = line[:newLen]
 }
 
+func (v *View) CurrentFgColor() Attribute {
+	return v.ei.curFgColor
+}
+
+func (v *View) CurrentBgColor() Attribute {
+	return v.ei.curBgColor
+}
+
+func (v *View) SetCurrentFgColor(color Attribute) {
+	v.ei.curFgColor = color
+}
+
+func (v *View) SetCurrentBgColor(color Attribute) {
+	v.ei.curBgColor = color
+}
+
 // Write appends a byte slice into the view's internal buffer. Because
 // View implements the io.Writer interface, it can be passed as parameter
 // of functions like fmt.Fprintf, fmt.Fprintln, io.Copy, etc. Clear must
